@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logstash-configmap
+data:
+  logstash.yml: |
+    http.host: "0.0.0.0"
+    path.config: /usr/share/logstash/pipeline
+  logstash.conf: |
+    # all input will come from filebeat, no local logs
+    input {
+      beats {
+        port => 5044
+      }
+    }
+
+    filter {
+      json {
+        source => "message"
+        target => "parsedJson"
+      }
+      mutate {
+        add_field => { "parsed.http" => "%{[parsedJson][http_method]}" }
+      }
+    }
+
+    # output {
+    #   elasticsearch {
+    #     index => "logstash123-%{[@metadata][beat]}"
+    #     hosts => [ "${ES_HOSTS}" ]
+    #     user => "${ES_USER}"
+    #     password => "${ES_PASSWORD}"
+    #   }
+    # }
+
+    output {
+      opensearch {
+        hosts => ["https://opensearch-cluster-master.kube-system.svc.cluster.local:9200"]
+        index => "llauderes-restapi"
+        user => "admin"
+        password => "y5J48vx80+9G"
+        ssl => true
+        ssl_certificate_verification => false
+      }
+
+      # file {
+      #   path => "output.txt"
+      # }
+
+      stdout {
+        codec => rubydebug
+      }
+    }
