@@ -21,4 +21,4 @@
     kubectl apply -f logstash/config-map.yaml
     ```
 
-[👈🏼 Back to main](./)
+[👈🏼 Back to main](../)

@@ -17,4 +17,4 @@ Install OpenSearch Cluster locally
     ./install.sh
     ```
 
-[👈🏼 Back to main](./)
+[👈🏼 Back to main](../)

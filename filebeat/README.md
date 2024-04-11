@@ -14,4 +14,4 @@
     kubectl apply -f ./filebeat-kubernetes.yaml
     ```
 
-[👈🏼 Back to main](./)
+[👈🏼 Back to main](../)
