@@ -19,3 +19,5 @@ Install OpenSearch Dashboard locally
     ```
 
     OpenSearch running instance is in <http://localhost:5601>
+
+[👈🏼 Back to main](./)

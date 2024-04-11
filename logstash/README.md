@@ -20,3 +20,5 @@
     kubectl delete po -l app=logstash
     kubectl apply -f logstash/config-map.yaml
     ```
+
+[👈🏼 Back to main](./)
