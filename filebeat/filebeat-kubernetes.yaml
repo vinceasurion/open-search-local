@@ -125,7 +125,7 @@ data:
             when:
               not:
                 equals:
-                   kubernetes.namespace: "llauderes-restapi"
+                   kubernetes.namespace: "<application-namespace>"
 
     # filebeat.autodiscover:
     #   providers:

@@ -69,7 +69,7 @@ data:
     output {
       opensearch {
         hosts => ["https://opensearch-cluster-master.kube-system.svc.cluster.local:9200"]
-        index => "llauderes-restapi"
+        index => "<index-name>"
         user => "admin"
         password => "y5J48vx80+9G"
         ssl => true
