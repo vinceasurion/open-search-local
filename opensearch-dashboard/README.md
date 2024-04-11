@@ -2,18 +2,20 @@
 
 Install OpenSearch Dashboard locally
 
-## Install OpenSearch Dashboard
+## Setup
 
-```sh
-chmod +x ./install.sh
+1. Install OpenSearch Dashboard
 
-./install.sh
-```
+    ```sh
+    chmod +x ./install.sh
 
-## Expose OpenSearch Dashboard
+    ./install.sh
+    ```
 
-```sh
-kubectl port-forward svc/dashboard-opensearch-dashboards 5601:5601
-```
+1. Expose OpenSearch Dashboard
 
-OpenSearch running instance is in <http://localhost:5601>
+    ```sh
+    kubectl port-forward svc/dashboard-opensearch-dashboards 5601:5601
+    ```
+
+    OpenSearch running instance is in <http://localhost:5601>

@@ -1,9 +1,15 @@
-# Install Filebeat
+# Filebeat
 
-Open `filebeat-kubernetes.yaml` and go to line `128` and changed the desired namespace that you wanted to collect logs.
+1. Change filebeat namespace
 
-For example, you want to collect application logs from the e-commerce namespace, you should provide e-commerce namespace.
+    Open `filebeat-kubernetes.yaml` and go to line `128` and changed the desired namespace that you wanted to collect logs.
 
-```sh
-kubectl apply -f ./filebeat-kubernetes.yaml
-```
+    For example, you want to collect application logs from the e-commerce namespace, you should provide e-commerce namespace.
+
+1. Deploy filebeat components
+
+    ```sh
+    cd filebeat
+    
+    kubectl apply -f ./filebeat-kubernetes.yaml
+    ```
