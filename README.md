@@ -1,3 +1,3 @@
-# OpenSearch local
+# OpenSearch Local
 
-Setting up a OpenSearch Dashboard thru docker-desktop
+Setting up local OpenSearch Dashboard

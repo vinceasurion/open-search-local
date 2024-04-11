@@ -17,21 +17,54 @@ data:
     filter {
       json {
         source => "message"
-        target => "parsedJson"
+        skip_on_invalid_json => true
+        target => "doc"
       }
-      mutate {
-        add_field => { "parsed.http" => "%{[parsedJson][http_method]}" }
+       mutate {
+        rename => {
+          "[doc][message][msg]" => "msg"
+        }
+      }
+
+      if "commonEvent" in [msg] {
+        grok {
+          match => { "msg" => "Successfully published event to common event stream %{GREEDYDATA:data}" }
+        }
+
+        mutate {
+          replace => [ "data", "%{data}" ]
+          gsub => [ "data", "\n", "" ]
+        }
+
+        ruby {
+          init => "require 'json'"
+          code => "
+              common_event = event.get('data')
+              timestamp_regex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/
+              timestamp_placeholder = 'TIMESTAMP_PLACEHOLDER'
+
+              # Temporarily replace timestamp with placeholder
+              timestamp = common_event[timestamp_regex]
+              common_event.gsub!(timestamp_regex, timestamp_placeholder)
+
+              # Add quotes to keys
+              common_event.gsub!(/(\w+):/, '\"\\1\":')
+              common_event.gsub!(/undefined/, '{}')
+              common_event.gsub!(/\[Array\]/, '\"\[Array\]\"')
+              common_event.gsub!(timestamp_placeholder, timestamp)
+              common_event.gsub!(/'/, '\"')
+              common_event.gsub!('\\', '')
+              
+          "
+        }
+
+        json {
+          source => "data"
+          skip_on_invalid_json => true
+          target => "parsed"
+        }
       }
     }
-
-    # output {
-    #   elasticsearch {
-    #     index => "logstash123-%{[@metadata][beat]}"
-    #     hosts => [ "${ES_HOSTS}" ]
-    #     user => "${ES_USER}"
-    #     password => "${ES_PASSWORD}"
-    #   }
-    # }
 
     output {
       opensearch {
